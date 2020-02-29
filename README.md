@@ -1,3 +1,12 @@
-# terraform-modules
+## Providers
 
-`terraform destroy -auto-approve`
+No provider.
+
+## Inputs
+
+No input.
+
+## Outputs
+
+No output.
+

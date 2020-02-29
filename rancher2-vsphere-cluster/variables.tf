@@ -37,7 +37,7 @@ variable "enable_istio" {
 
 variable "k8s_network_plugin" {
   type        = string
-  description = "Which K8s network plugin to use, one of `canal`, `flannel`, 'calico`, `weave`"
+  description = "Which K8s network plugin to use, one of `canal`, `flannel`, `calico`, `weave`"
   default     = "canal"
 }
 
