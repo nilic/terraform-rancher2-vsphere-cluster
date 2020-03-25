@@ -64,6 +64,19 @@ resource "rancher2_node_pool" "master_nodes" {
   node_template_id = rancher2_node_template.node_template["master"].id
   quantity         = var.master_node_quantity
   control_plane    = true
+  etcd             = true
+  worker           = false
+}
+
+resource "rancher2_node_pool" "control_plane_nodes" {
+  count = var.control_plane_node_quantity != null ? 1 : 0
+
+  cluster_id       = rancher2_cluster.cluster.id
+  name             = var.control_plane_node_pool_name
+  hostname_prefix  = var.control_plane_node_prefix
+  node_template_id = rancher2_node_template.node_template["control_plane"].id
+  quantity         = var.control_plane_node_quantity
+  control_plane    = true
   etcd             = false
   worker           = false
 }
@@ -77,19 +90,6 @@ resource "rancher2_node_pool" "etcd_nodes" {
   node_template_id = rancher2_node_template.node_template["etcd"].id
   quantity         = var.etcd_node_quantity
   control_plane    = false
-  etcd             = true
-  worker           = false
-}
-
-resource "rancher2_node_pool" "control_nodes" {
-  count = var.control_node_quantity != null ? 1 : 0
-
-  cluster_id       = rancher2_cluster.cluster.id
-  name             = var.control_node_pool_name
-  hostname_prefix  = var.control_node_prefix
-  node_template_id = rancher2_node_template.node_template["control"].id
-  quantity         = var.control_node_quantity
-  control_plane    = true
   etcd             = true
   worker           = false
 }

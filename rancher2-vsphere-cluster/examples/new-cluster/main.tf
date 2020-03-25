@@ -9,9 +9,9 @@ provider "rancher2" {
   insecure   = true
 }
 
-# cluster with separated master and etcd roles
-## creates a cluster with two master, three etcd and three worker nodes, canal networking and monitoring enabled
-module "rancher_cluster_separate_master_etcd" {
+# cluster with separated control plane and etcd roles
+## creates a cluster with two control plane, three etcd and three worker nodes, canal networking and monitoring enabled
+module "rancher_cluster_separate_control_plane_etcd" {
   source = "../.."
 
   cloud_credential_name = "MyVsphereCredentials"
@@ -23,8 +23,8 @@ module "rancher_cluster_separate_master_etcd" {
   k8s_network_plugin    = "canal"
 
   node_specs = {
-    master = {
-      vsphere_template        = "MyFolder/k8s-master"
+    control_plane = {
+      vsphere_template        = "MyFolder/k8s-control_plane"
       num_vcpu                = 2
       memory_gb               = 4
       disk_gb                 = 20
@@ -70,9 +70,9 @@ module "rancher_cluster_separate_master_etcd" {
     }
   }
 
-  master_node_pool_name = "tf-master"
-  master_node_prefix    = "tf-master-"
-  master_node_quantity  = 2
+  control_plane_node_pool_name = "tf-control_plane"
+  control_plane_node_prefix    = "tf-control_plane-"
+  control_plane_node_quantity  = 2
 
   etcd_node_pool_name = "tf-etcd"
   etcd_node_prefix    = "tf-etcd-"
@@ -83,9 +83,9 @@ module "rancher_cluster_separate_master_etcd" {
   worker_node_quantity  = 3
 }
 
-# cluster with consolidated master and etcd roles
-## creates a cluster with three control plane (master+etcd) and three worker nodes, canal networking and monitoring enabled
-module "rancher_cluster_consolidated_master_etcd" {
+# cluster with control plane and etcd roles consolidated into a master node role
+## creates a cluster with three master (control plane + etcd) and three worker nodes, canal networking and monitoring enabled
+module "rancher_cluster_consolidated_control_plane_etcd" {
   source = "../.."
 
   cloud_credential_name = "MyVsphereCredentials"
@@ -97,7 +97,7 @@ module "rancher_cluster_consolidated_master_etcd" {
   k8s_network_plugin    = "canal"
 
   node_specs = {
-    control = {
+    master = {
       vsphere_template        = "MyFolder/k8s-master"
       num_vcpu                = 2
       memory_gb               = 4
@@ -129,16 +129,16 @@ module "rancher_cluster_consolidated_master_etcd" {
     }
   }
 
-  control_node_pool_name = "tf-control"
-  control_node_prefix    = "tf-control-"
-  control_node_quantity  = 3
+  master_node_pool_name = "tf-master"
+  master_node_prefix    = "tf-master-"
+  master_node_quantity  = 3
 
   worker_node_pool_name = "tf-worker"
   worker_node_prefix    = "tf-worker-"
   worker_node_quantity  = 3
 }
 
-# creates a cluster with one master, one etcd and one worker node, canal networking and monitoring enabled
+# creates a cluster with one control plane, one etcd and one worker node, canal networking and monitoring enabled
 module "rancher_cluster_minimum_inputs" {
   source = "../.."
 
@@ -147,8 +147,8 @@ module "rancher_cluster_minimum_inputs" {
   cluster_description   = "Terraform test Rancher K8s cluster 2"
 
   node_specs = {
-    master = {
-      vsphere_template        = "k8s-master"
+    control_plane = {
+      vsphere_template        = "k8s-control_plane"
       num_vcpu                = 2
       memory_gb               = 4
       disk_gb                 = 20
@@ -194,8 +194,8 @@ module "rancher_cluster_minimum_inputs" {
     }
   }
 
-  master_node_quantity = 2
-  etcd_node_quantity   = 3
-  worker_node_quantity = 2
+  control_plane_node_quantity = 2
+  etcd_node_quantity          = 3
+  worker_node_quantity        = 2
 
 }

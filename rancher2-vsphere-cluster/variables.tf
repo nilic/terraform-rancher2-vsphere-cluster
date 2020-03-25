@@ -4,7 +4,7 @@ variable "cloud_credential_name" {
 }
 
 variable "node_specs" {
-  description = "Specification of node templates"
+  description = "Specification of node templates, take a look at the `examples` directory for synthax"
 }
 
 variable "cluster_name" {
@@ -43,19 +43,19 @@ variable "k8s_network_plugin" {
 
 variable "master_node_pool_name" {
   type        = string
-  description = "Name of the Master node pool"
+  description = "Name of the master (consolidated control plane and etcd) node pool"
   default     = "master"
 }
 
 variable "master_node_prefix" {
   type        = string
-  description = "Prefix for nodes created in Master node pool"
+  description = "Prefix for nodes created in master (consolidated control plane and etcd) node pool"
   default     = "master-"
 }
 
 variable "master_node_quantity" {
   type        = number
-  description = "Number of nodes in Master node pool"
+  description = "Number of nodes in master (consolidated control plane and etcd) node pool"
   default     = null
 }
 
@@ -77,19 +77,19 @@ variable "etcd_node_quantity" {
   default     = null
 }
 
-variable "control_node_pool_name" {
+variable "control_plane_node_pool_name" {
   type        = string
   description = "Name of the control plane node pool"
-  default     = "control"
+  default     = "control_plane"
 }
 
-variable "control_node_prefix" {
+variable "control_plane_node_prefix" {
   type        = string
   description = "Prefix for nodes created in control plane node pool"
-  default     = "control-"
+  default     = "control_plane-"
 }
 
-variable "control_node_quantity" {
+variable "control_plane_node_quantity" {
   type        = number
   description = "Number of nodes in control plane node pool"
   default     = null
