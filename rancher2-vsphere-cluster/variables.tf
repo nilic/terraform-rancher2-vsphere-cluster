@@ -80,13 +80,13 @@ variable "etcd_node_quantity" {
 variable "control_plane_node_pool_name" {
   type        = string
   description = "Name of the control plane node pool"
-  default     = "control_plane"
+  default     = "control-plane"
 }
 
 variable "control_plane_node_prefix" {
   type        = string
   description = "Prefix for nodes created in control plane node pool"
-  default     = "control_plane-"
+  default     = "control-plane-"
 }
 
 variable "control_plane_node_quantity" {
@@ -112,3 +112,22 @@ variable "worker_node_quantity" {
   description = "Number of nodes in worker node pool"
   default     = null
 }
+
+variable "single_node_cluster" {
+  type        = bool
+  description = "Whether to create a single node cluster with all roles consolidated on one node"
+  default     = false
+}
+
+variable "all_in_one_node_pool_name" {
+  type        = string
+  description = "Name of the all-in-one node pool"
+  default     = "all-in-one"
+}
+
+variable "all_in_one_node_prefix" {
+  type        = string
+  description = "Prefix for node created in the all-in-one node pool"
+  default     = "all-in-one-"
+}
+

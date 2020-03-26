@@ -12,7 +12,7 @@ resource "rancher2_node_template" "node_template" {
   for_each = var.node_specs
 
   name                = "${var.cluster_name}-${each.key}-template"
-  description         = "Node template for vSphere K8s cluster ${var.cluster_name} - ${each.key} node"
+  description         = "Node template for vSphere K8s cluster ${var.cluster_name} - ${replace(each.key, "_", " ")} node"
   cloud_credential_id = data.rancher2_cloud_credential.cloud_credential.id
   vsphere_config {
     creation_type             = "template"
@@ -107,3 +107,15 @@ resource "rancher2_node_pool" "worker_nodes" {
   worker           = true
 }
 
+resource "rancher2_node_pool" "all_in_one_node" {
+  count = var.single_node_cluster ? 1 : 0
+
+  cluster_id       = rancher2_cluster.cluster.id
+  name             = var.all_in_one_node_pool_name
+  hostname_prefix  = var.all_in_one_node_prefix
+  node_template_id = rancher2_node_template.node_template["all_in_one"].id
+  quantity         = 1
+  control_plane    = true
+  etcd             = true
+  worker           = true
+}

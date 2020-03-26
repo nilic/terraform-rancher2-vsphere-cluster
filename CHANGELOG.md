@@ -1,3 +1,11 @@
+## 2.1.0 (March 26, 2020)
+
+FEATURES:
+* `rancher2-vsphere-cluster`: Added possibility to create a single node K8s cluster which could be useful for development, testing and learning purposes; this type of cluster uses a new node role called `all_in_one`
+
+BUG FIXES:
+* `rancher2-vsphere-cluster`: Fixed default variable value for `control_plane` node pool, which would cause an error when creating the node pool, since the name should be RFC 1123 compliant
+
 ## 2.0.0 (March 25, 2020)
 
 IMPROVEMENTS:

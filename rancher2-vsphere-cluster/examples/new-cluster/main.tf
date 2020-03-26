@@ -138,6 +138,40 @@ module "rancher_cluster_consolidated_control_plane_etcd" {
   worker_node_quantity  = 3
 }
 
+# single node cluster with all roles consolidated on one node
+## creates a cluster with one node with control plane, etcd and worker roles, canal networking and monitoring enabled
+module "rancher_cluster_single_node" {
+  source = "../.."
+
+  cloud_credential_name = "MyVsphereCredentials"
+  cluster_name          = "tf_test_consolidated"
+  cluster_description   = "Terraform test Rancher K8s cluster"
+  enable_monitoring     = true
+  enable_alerting       = false
+  enable_istio          = false
+  k8s_network_plugin    = "canal"
+
+  node_specs = {
+    all_in_one = {
+      vsphere_template        = "MyFolder/k8s-master"
+      num_vcpu                = 2
+      memory_gb               = 4
+      disk_gb                 = 20
+      datacenter              = "MyDC"
+      datastore               = "MyDatastore"
+      cluster                 = "MyCluster"
+      resource_pool           = "MyResourcePool"
+      folder                  = "MyFolder"
+      portgroup               = "MyPortgroup"
+      template_ssh_user       = "root"
+      template_ssh_password   = "MySecretPass"
+      template_ssh_user_group = "root"
+    }
+  }
+
+  single_node_cluster = true
+}
+
 # creates a cluster with one control plane, one etcd and one worker node, canal networking and monitoring enabled
 module "rancher_cluster_minimum_inputs" {
   source = "../.."
