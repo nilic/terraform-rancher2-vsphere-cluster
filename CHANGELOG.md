@@ -1,7 +1,7 @@
 ## 2.2.0 (March 27, 2020)
 
 FEATURES:
-* `rancher2-vsphere-cluster`: Added support for defining vSphere cloud provider, necessary for dynamic provisioning of volumes
+* `rancher2-vsphere-cluster`: Added support for setting vSphere cloud provider configuration, which allows for dynamic provisioning of volumes
 
 ## 2.1.0 (March 26, 2020)
 
