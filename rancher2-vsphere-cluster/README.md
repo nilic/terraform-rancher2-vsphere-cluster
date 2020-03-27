@@ -11,6 +11,7 @@
 | all\_in\_one\_node\_pool\_name | Name of the all-in-one node pool | `string` | `"all-in-one"` | no |
 | all\_in\_one\_node\_prefix | Prefix for node created in the all-in-one node pool | `string` | `"all-in-one-"` | no |
 | cloud\_credential\_name | Name of vSphere cloud credential | `string` | n/a | yes |
+| cloud\_provider\_spec | Specification of vSphere cloud provider, which is necessary to allow dynamic provisioning of volumes. Take a look at the `examples` directory for synthax and Rancher vSphere Cloud Provider documentation for explanation of parameters | `map` | `{}` | no |
 | cluster\_description | Cluster description | `string` | n/a | yes |
 | cluster\_name | Cluster name | `string` | n/a | yes |
 | control\_plane\_node\_pool\_name | Name of the control plane node pool | `string` | `"control-plane"` | no |

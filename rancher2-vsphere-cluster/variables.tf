@@ -41,6 +41,11 @@ variable "k8s_network_plugin" {
   default     = "canal"
 }
 
+variable "cloud_provider_spec" {
+  description = "Specification of vSphere cloud provider, which is necessary to allow dynamic provisioning of volumes. Take a look at the `examples` directory for synthax and Rancher vSphere Cloud Provider documentation for explanation of parameters"
+  default     = {}
+}
+
 variable "master_node_pool_name" {
   type        = string
   description = "Name of the master (consolidated control plane and etcd) node pool"

@@ -4,6 +4,10 @@ terraform {
   }
 }
 
+locals {
+  cloud_provider_spec_list = length(var.cloud_provider_spec) != 0 ? [var.cloud_provider_spec] : []
+}
+
 data "rancher2_cloud_credential" "cloud_credential" {
   name = var.cloud_credential_name
 }
@@ -51,6 +55,46 @@ resource "rancher2_cluster" "cluster" {
   rke_config {
     network {
       plugin = var.k8s_network_plugin
+    }
+    dynamic "cloud_provider" {
+      for_each = local.cloud_provider_spec_list
+      content {
+        name = "vsphere"
+        vsphere_cloud_provider {
+          global {
+            insecure_flag        = lookup(cloud_provider.value, "global_insecure_flag", null)
+            user                 = lookup(cloud_provider.value, "global_user", null)
+            password             = lookup(cloud_provider.value, "global_password", null)
+            datacenters          = lookup(cloud_provider.value, "global_datacenters", null)
+            port                 = lookup(cloud_provider.value, "global_port", null)
+            soap_roundtrip_count = lookup(cloud_provider.value, "global_soap_roundtrip_count", null)
+          }
+          dynamic "virtual_center" {
+            for_each = cloud_provider.value.virtual_center_spec
+            content {
+              name                 = virtual_center.value.name
+              user                 = virtual_center.value.user
+              password             = virtual_center.value.password
+              datacenters          = virtual_center.value.datacenters
+              port                 = lookup(virtual_center.value, "port", null)
+              soap_roundtrip_count = lookup(virtual_center.value, "soap_roundtrip_count", null)
+            }
+          }
+          workspace {
+            server            = cloud_provider.value.workspace_server
+            datacenter        = cloud_provider.value.workspace_datacenter
+            folder            = cloud_provider.value.workspace_folder
+            default_datastore = lookup(cloud_provider.value, "workspace_default_datastore", null)
+            resourcepool_path = lookup(cloud_provider.value, "workspace_resourcepool_path", null)
+          }
+          disk {
+            scsi_controller_type = lookup(cloud_provider.value, "disk_scsi_controller_type", null)
+          }
+          network {
+            public_network = lookup(cloud_provider.value, "network_public_network", null)
+          }
+        }
+      }
     }
   }
 }
