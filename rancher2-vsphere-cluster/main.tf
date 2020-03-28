@@ -22,8 +22,8 @@ resource "rancher2_node_template" "node_template" {
     disk_size                 = each.value.disk_gb * 1024
     datacenter                = "/${each.value.datacenter}"
     datastore                 = "/${each.value.datacenter}/datastore/${each.value.datastore}"
-    pool                      = "/${each.value.datacenter}/host/${each.value.cluster}/Resources/${each.value.resource_pool}"
-    folder                    = "/${each.value.datacenter}/vm/${each.value.folder}"
+    pool                      = contains(keys(each.value), "resource_pool") ? "/${each.value.datacenter}/host/${each.value.cluster}/Resources/${each.value.resource_pool}" : "/${each.value.datacenter}/host/${each.value.cluster}/Resources"
+    folder                    = contains(keys(each.value), "folder") ? "/${each.value.datacenter}/vm/${each.value.folder}" : null
     network                   = ["/${each.value.datacenter}/network/${each.value.portgroup}"]
     ssh_user                  = each.value.template_ssh_user
     ssh_password              = each.value.template_ssh_password
