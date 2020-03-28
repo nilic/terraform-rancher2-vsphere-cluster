@@ -3,7 +3,7 @@ variable "cloud_credential_name" {
   description = "Name of vSphere cloud credential"
 }
 
-variable "node_specs" {
+variable "node_spec" {
   description = "Specification of node templates, take a look at the `examples` directory for synthax"
 }
 
@@ -45,6 +45,11 @@ variable "kubernetes_network_plugin" {
   type        = string
   description = "Kubernetes network plugin to use, one of `canal` (default), `flannel`, `calico`, `weave`"
   default     = "canal"
+}
+
+variable "private_registries_spec" {
+  description = "Specification of private registries for Docker images. Take a look at the `examples` directory for synthax"
+  default     = {}
 }
 
 variable "cloud_provider_spec" {
