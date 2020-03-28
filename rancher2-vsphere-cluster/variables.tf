@@ -35,9 +35,15 @@ variable "enable_istio" {
   default     = false
 }
 
-variable "k8s_network_plugin" {
+variable "kubernetes_version" {
   type        = string
-  description = "Which K8s network plugin to use, one of `canal`, `flannel`, `calico`, `weave`"
+  description = "Kubernetes version to deploy"
+  default     = null
+}
+
+variable "kubernetes_network_plugin" {
+  type        = string
+  description = "Kubernetes network plugin to use, one of `canal` (default), `flannel`, `calico`, `weave`"
   default     = "canal"
 }
 
