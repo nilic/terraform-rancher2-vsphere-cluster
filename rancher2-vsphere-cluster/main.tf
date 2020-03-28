@@ -4,16 +4,12 @@ terraform {
   }
 }
 
-locals {
-  cloud_provider_spec_list = length(var.cloud_provider_spec) != 0 ? [var.cloud_provider_spec] : []
-}
-
 data "rancher2_cloud_credential" "cloud_credential" {
   name = var.cloud_credential_name
 }
 
 resource "rancher2_node_template" "node_template" {
-  for_each = var.node_specs
+  for_each = var.node_spec
 
   name                = "${var.cluster_name}-${each.key}-template"
   description         = "Node template for vSphere K8s cluster ${var.cluster_name} - ${replace(each.key, "_", " ")} node"
@@ -52,13 +48,26 @@ resource "rancher2_cluster" "cluster" {
   enable_cluster_monitoring = var.enable_monitoring
   enable_cluster_alerting   = var.enable_alerting
   enable_cluster_istio      = var.enable_istio
+
   rke_config {
     kubernetes_version = var.kubernetes_version
+
     network {
       plugin = var.kubernetes_network_plugin
     }
+
+    dynamic "private_registries" {
+      for_each = var.private_registries_spec
+      content {
+        url        = private_registries.value.url
+        user       = lookup(private_registries.value, "user", null)
+        password   = lookup(private_registries.value, "password", null)
+        is_default = lookup(private_registries.value, "is_default", null)
+      }
+    }
+
     dynamic "cloud_provider" {
-      for_each = local.cloud_provider_spec_list
+      for_each = length(var.cloud_provider_spec) != 0 ? [var.cloud_provider_spec] : []
       content {
         name = "vsphere"
         vsphere_cloud_provider {

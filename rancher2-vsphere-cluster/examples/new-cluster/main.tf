@@ -23,7 +23,7 @@ module "rancher_cluster_separate_control_plane_etcd" {
   kubernetes_network_plugin = "canal"
   kubernetes_version        = "v1.17.4-rancher1-1"
 
-  node_specs = {
+  node_spec = {
     control_plane = {
       vsphere_template        = "MyFolder/k8s-control_plane"
       num_vcpu                = 2
@@ -97,7 +97,7 @@ module "rancher_cluster_consolidated_control_plane_etcd" {
   enable_istio              = false
   kubernetes_network_plugin = "canal"
 
-  node_specs = {
+  node_spec = {
     master = {
       vsphere_template        = "MyFolder/k8s-master"
       num_vcpu                = 2
@@ -152,7 +152,7 @@ module "rancher_cluster_single_node" {
   enable_istio              = false
   kubernetes_network_plugin = "canal"
 
-  node_specs = {
+  node_spec = {
     all_in_one = {
       vsphere_template        = "MyFolder/k8s-master"
       num_vcpu                = 2
@@ -173,7 +173,7 @@ module "rancher_cluster_single_node" {
   single_node_cluster = true
 }
 
-# cluster with vSphere cloud provider configuration
+# cluster with vSphere cloud provider and Docker private registry configuration
 module "rancher_cluster_cloud_provider" {
   source = "../.."
 
@@ -184,6 +184,18 @@ module "rancher_cluster_cloud_provider" {
   enable_alerting           = false
   enable_istio              = false
   kubernetes_network_plugin = "canal"
+
+  private_registries_spec = {
+    privreg1 = {
+      url        = "myreg1.mydomain.com"
+      user       = "myuser"
+      password   = "mysecretpass"
+      is_default = true
+    }
+    privreg2 = {
+      url = "myreg2.mydomain.com"
+    }
+  }
 
   cloud_provider_spec = {
     global_insecure_flag = false
@@ -206,7 +218,7 @@ module "rancher_cluster_cloud_provider" {
     network_public_network      = "MyPortgroup"
   }
 
-  node_specs = {
+  node_spec = {
     master = {
       vsphere_template        = "MyFolder/k8s-master"
       num_vcpu                = 2

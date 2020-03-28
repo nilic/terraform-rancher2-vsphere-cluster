@@ -1,9 +1,10 @@
-## 2.3.0 (Unreleased)
+## 2.3.0 (March 28, 2020)
 FEATURES:
-* `rancher2-vsphere-cluster`: Added support for defining Kubernetes version to deploy through variable `kubernetes_version`
+* `rancher2-vsphere-cluster`: Added support for defining which Kubernetes version to deploy through variable `kubernetes_version`
+* `rancher2-vsphere-cluster`: Added support for defining private Docker registries for the cluster through variable `private_registries_spec`
 
 BREAKING CHANGES:
-* `rancher2-vsphere-cluster`: Changed variable name `k8s_network_plugin` to `kubernetes_network_plugin`
+* `rancher2-vsphere-cluster`: Changed names of variables `k8s_network_plugin` to `kubernetes_network_plugin` and `node_specs` to `node_spec`
 
 ## 2.2.0 (March 27, 2020)
 

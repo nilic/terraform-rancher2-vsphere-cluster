@@ -28,7 +28,8 @@
 | master\_node\_pool\_name | Name of the master (consolidated control plane and etcd) node pool | `string` | `"master"` | no |
 | master\_node\_prefix | Prefix for nodes created in master (consolidated control plane and etcd) node pool | `string` | `"master-"` | no |
 | master\_node\_quantity | Number of nodes in master (consolidated control plane and etcd) node pool | `number` | n/a | yes |
-| node\_specs | Specification of node templates, take a look at the `examples` directory for synthax | `any` | n/a | yes |
+| node\_spec | Specification of node templates, take a look at the `examples` directory for synthax | `any` | n/a | yes |
+| private\_registries\_spec | Specification of private registries for Docker images. Take a look at the `examples` directory for synthax | `map` | `{}` | no |
 | single\_node\_cluster | Whether to create a single node cluster with all roles consolidated on one node | `bool` | `false` | no |
 | worker\_node\_pool\_name | Name of the worker node pool | `string` | `"worker"` | no |
 | worker\_node\_prefix | Prefix for nodes created in worker node pool | `string` | `"worker-"` | no |
