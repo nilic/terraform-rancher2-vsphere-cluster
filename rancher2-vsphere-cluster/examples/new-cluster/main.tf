@@ -14,13 +14,14 @@ provider "rancher2" {
 module "rancher_cluster_separate_control_plane_etcd" {
   source = "../.."
 
-  cloud_credential_name = "MyVsphereCredentials"
-  cluster_name          = "tf_test"
-  cluster_description   = "Terraform test Rancher K8s cluster"
-  enable_monitoring     = true
-  enable_alerting       = false
-  enable_istio          = false
-  k8s_network_plugin    = "canal"
+  cloud_credential_name     = "MyVsphereCredentials"
+  cluster_name              = "tf_test"
+  cluster_description       = "Terraform test Rancher K8s cluster"
+  enable_monitoring         = true
+  enable_alerting           = false
+  enable_istio              = false
+  kubernetes_network_plugin = "canal"
+  kubernetes_version        = "v1.17.4-rancher1-1"
 
   node_specs = {
     control_plane = {
@@ -88,13 +89,13 @@ module "rancher_cluster_separate_control_plane_etcd" {
 module "rancher_cluster_consolidated_control_plane_etcd" {
   source = "../.."
 
-  cloud_credential_name = "MyVsphereCredentials"
-  cluster_name          = "tf_test_consolidated"
-  cluster_description   = "Terraform test Rancher K8s cluster"
-  enable_monitoring     = true
-  enable_alerting       = false
-  enable_istio          = false
-  k8s_network_plugin    = "canal"
+  cloud_credential_name     = "MyVsphereCredentials"
+  cluster_name              = "tf_test_consolidated"
+  cluster_description       = "Terraform test Rancher K8s cluster"
+  enable_monitoring         = true
+  enable_alerting           = false
+  enable_istio              = false
+  kubernetes_network_plugin = "canal"
 
   node_specs = {
     master = {
@@ -143,13 +144,13 @@ module "rancher_cluster_consolidated_control_plane_etcd" {
 module "rancher_cluster_single_node" {
   source = "../.."
 
-  cloud_credential_name = "MyVsphereCredentials"
-  cluster_name          = "tf_test_consolidated"
-  cluster_description   = "Terraform test Rancher K8s cluster"
-  enable_monitoring     = true
-  enable_alerting       = false
-  enable_istio          = false
-  k8s_network_plugin    = "canal"
+  cloud_credential_name     = "MyVsphereCredentials"
+  cluster_name              = "tf_test_consolidated"
+  cluster_description       = "Terraform test Rancher K8s cluster"
+  enable_monitoring         = true
+  enable_alerting           = false
+  enable_istio              = false
+  kubernetes_network_plugin = "canal"
 
   node_specs = {
     all_in_one = {
@@ -176,13 +177,13 @@ module "rancher_cluster_single_node" {
 module "rancher_cluster_cloud_provider" {
   source = "../.."
 
-  cloud_credential_name = "MyVsphereCredentials"
-  cluster_name          = "tf_test_consolidated"
-  cluster_description   = "Terraform test Rancher K8s cluster"
-  enable_monitoring     = true
-  enable_alerting       = false
-  enable_istio          = false
-  k8s_network_plugin    = "canal"
+  cloud_credential_name     = "MyVsphereCredentials"
+  cluster_name              = "tf_test_consolidated"
+  cluster_description       = "Terraform test Rancher K8s cluster"
+  enable_monitoring         = true
+  enable_alerting           = false
+  enable_istio              = false
+  kubernetes_network_plugin = "canal"
 
   cloud_provider_spec = {
     global_insecure_flag = false

@@ -1,3 +1,10 @@
+## 2.3.0 (Unreleased)
+FEATURES:
+* `rancher2-vsphere-cluster`: Added support for defining Kubernetes version to deploy through variable `kubernetes_version`
+
+BREAKING CHANGES:
+* `rancher2-vsphere-cluster`: Changed variable name `k8s_network_plugin` to `kubernetes_network_plugin`
+
 ## 2.2.0 (March 27, 2020)
 
 FEATURES:

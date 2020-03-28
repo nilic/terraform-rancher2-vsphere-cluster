@@ -23,7 +23,8 @@
 | etcd\_node\_pool\_name | Name of the etcd node pool | `string` | `"etcd"` | no |
 | etcd\_node\_prefix | Prefix for nodes created in etcd node pool | `string` | `"etcd-"` | no |
 | etcd\_node\_quantity | Number of nodes in etcd node pool | `number` | n/a | yes |
-| k8s\_network\_plugin | Which K8s network plugin to use, one of `canal`, `flannel`, `calico`, `weave` | `string` | `"canal"` | no |
+| kubernetes\_network\_plugin | Kubernetes network plugin to use, one of `canal` (default), `flannel`, `calico`, `weave` | `string` | `"canal"` | no |
+| kubernetes\_version | Kubernetes version to deploy | `string` | n/a | yes |
 | master\_node\_pool\_name | Name of the master (consolidated control plane and etcd) node pool | `string` | `"master"` | no |
 | master\_node\_prefix | Prefix for nodes created in master (consolidated control plane and etcd) node pool | `string` | `"master-"` | no |
 | master\_node\_quantity | Number of nodes in master (consolidated control plane and etcd) node pool | `number` | n/a | yes |

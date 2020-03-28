@@ -53,8 +53,9 @@ resource "rancher2_cluster" "cluster" {
   enable_cluster_alerting   = var.enable_alerting
   enable_cluster_istio      = var.enable_istio
   rke_config {
+    kubernetes_version = var.kubernetes_version
     network {
-      plugin = var.k8s_network_plugin
+      plugin = var.kubernetes_network_plugin
     }
     dynamic "cloud_provider" {
       for_each = local.cloud_provider_spec_list
