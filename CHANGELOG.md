@@ -1,11 +1,11 @@
 ## 2.4.0 (March 29, 2020)
 
 FEATURES:
-* `rancher2-vsphere-cluster`: Added support for global node specifications through module input variables which name starts with `node_`; this allows parameters such as vSphere template, datacenter, cluster, resource pool, folder, datastore, portgroup, SSH user, SSH password and SSH user group to be set once and then applied for all cluster nodes; value of these parameters can be overridden by setting them locally through `node_spec`; only input parameters that cannot be set globally and need to be set per each node role using `node_spec` are number of vCPUs, memory and disk size
+* `rancher2-vsphere-cluster`: Added support for global node specifications through module input variables starting with `node_`; this allows parameters such as vSphere template, datacenter, cluster, resource pool, folder, datastore, portgroup, SSH user, SSH password and SSH user group to be set once and then applied for all cluster nodes; value of these parameters can be overridden by setting them locally through `node_spec`; only input parameters that cannot be set globally and need to be set per each node role using `node_spec` are number of vCPUs, memory and disk size
 
 IMPROVEMENTS:
 * `rancher2-vsphere-cluster`: resource pool and VM folder are now optional parameters for cluster nodes; if omitted, nodes will be created in cluster and datacenter root
-* `rancher2-vsphere-cluster`: updated examples and separated into multiple files
+* `rancher2-vsphere-cluster`: updated examples and split them into multiple files
 
 ## 2.3.0 (March 28, 2020)
 FEATURES:
