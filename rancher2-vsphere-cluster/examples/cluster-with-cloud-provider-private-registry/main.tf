@@ -69,6 +69,7 @@ module "rancher_cluster_cloud_provider" {
       template_ssh_user       = "root"
       template_ssh_password   = "MySecretPass"
       template_ssh_user_group = "root"
+      cloud_config            = file("cloud-config.yml")
     }
     worker = {
       vsphere_template        = "MyFolder/k8s-worker"
@@ -84,6 +85,7 @@ module "rancher_cluster_cloud_provider" {
       template_ssh_user       = "root"
       template_ssh_password   = "MySecretPass"
       template_ssh_user_group = "root"
+      cloud_config            = file("cloud-config.yml")
     }
   }
 
