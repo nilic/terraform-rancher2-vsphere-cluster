@@ -38,7 +38,7 @@ resource "rancher2_node_template" "node_template" {
       contains(keys(each.value), "portgroup") ? "guestinfo.interface.0.ip.0.netmask=$${netmask:${each.value.portgroup}}" : "guestinfo.interface.0.ip.0.netmask=$${netmask:${var.node_portgroup}}",
       contains(keys(each.value), "portgroup") ? "guestinfo.interface.0.route.0.gateway=$${gateway:${each.value.portgroup}}" : "guestinfo.interface.0.route.0.gateway=$${gateway:${var.node_portgroup}}"
     ]
-    cloud_config = "#cloud-config"
+    cloud_config = contains(keys(each.value), "cloud_config") ? each.value.cloud_config : (var.node_cloud_config != null ? var.node_cloud_config : "#cloud-config")
   }
 }
 

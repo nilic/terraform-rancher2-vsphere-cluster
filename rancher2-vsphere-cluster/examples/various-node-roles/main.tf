@@ -38,6 +38,7 @@ module "rancher_cluster_separate_control_plane_etcd" {
       template_ssh_user       = "root"
       template_ssh_password   = "MySecretPass"
       template_ssh_user_group = "root"
+      cloud_config            = file("cloud-config.yml")
     }
     etcd = {
       vsphere_template        = "MyFolder/k8s-etcd"
@@ -53,6 +54,7 @@ module "rancher_cluster_separate_control_plane_etcd" {
       template_ssh_user       = "root"
       template_ssh_password   = "MySecretPass"
       template_ssh_user_group = "root"
+      cloud_config            = file("cloud-config.yml")
     }
     worker = {
       vsphere_template        = "MyFolder/k8s-worker"
@@ -68,6 +70,7 @@ module "rancher_cluster_separate_control_plane_etcd" {
       template_ssh_user       = "root"
       template_ssh_password   = "MySecretPass"
       template_ssh_user_group = "root"
+      cloud_config            = file("cloud-config.yml")
     }
   }
 
@@ -106,6 +109,7 @@ module "rancher_cluster_separate_control_plane_etcd_global_spec" {
   node_template_ssh_user       = "root"
   node_template_ssh_password   = "MySecretPass"
   node_template_ssh_user_group = "root"
+  node_cloud_config            = file("cloud-config.yml")
 
   node_spec = {
     control_plane = {
@@ -165,6 +169,7 @@ module "rancher_cluster_consolidated_control_plane_etcd" {
   node_template_ssh_user       = "root"
   node_template_ssh_password   = "MySecretPass"
   node_template_ssh_user_group = "root"
+  node_cloud_config            = file("cloud-config.yml")
 
   node_spec = {
     master = {

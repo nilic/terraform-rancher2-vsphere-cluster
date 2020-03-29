@@ -37,6 +37,7 @@ module "rancher_cluster_single_node" {
       template_ssh_user       = "root"
       template_ssh_password   = "MySecretPass"
       template_ssh_user_group = "root"
+      cloud_config            = file("cloud-config.yml")
     }
   }
 

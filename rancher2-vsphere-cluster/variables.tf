@@ -63,6 +63,12 @@ variable "node_template_ssh_user_group" {
   default     = null
 }
 
+variable "node_cloud_config" {
+  type        = string
+  description = "Global setting for the contents of cloud-config YAML file which will be applied on all cluster nodes; these contents should be defined in the root module either inline using the `heredoc` synthax, or loaded from a file using Terraform's `file()` function. `cloud_config` parameter inside `node_spec` overrides this global setting on a per node role basis; if neither are set, cloud-config file for the node will have content of `#cloud-config` (which effectively makes it empty)"
+  default     = null
+}
+
 variable "node_spec" {
   description = "Specification of node templates for each of the node roles. Available roles are `control_plane`, `etcd`, `master` (consolidated `control_plane` and `etcd`), `worker` and `all_in_one` (`control_plane`, `etcd` and `worker` consolidate on one node, used for creating single node clusters). `node_spec` allows for specifying parameters such as vSphere template, datacenter, cluster etc. on a node role basis. If these parameters are set both through `node_spec` and globally through `node_*`, `node_spec` values will have precedence. As a minimum, each node role needs to have the following inputs set in `node_spec`: `num_vcpu` (VM number of vCPUs), `memory_gb` (VM memory in GB) and `disk_gb` (VM disk size in GB) - all other values can be inherited from global variables. Take a look at the `examples` directory for detailed synthax"
 }

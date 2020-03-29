@@ -1,3 +1,7 @@
+## 2.5.0 (March 29, 2020)
+FEATURES:
+* `rancher2-vsphere-cluster`: Added support for specifying cloud-config YAML for cluster nodes, either through global setting `node_cloud_config` or through a local `cloud_config` parameter inside `node_spec`; contents of a cloud-config YAML file should be passed to the module, and this can be done either by defining YAML inline using Terraform's `heredoc` synthax or by loading it from a file using Terraform's `file()` function; cloud-config spec is optional, if omitted, cloud-config file will be left empty (set to `#cloud-config`)
+
 ## 2.4.0 (March 29, 2020)
 
 FEATURES:

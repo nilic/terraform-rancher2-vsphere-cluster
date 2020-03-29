@@ -28,6 +28,7 @@
 | master\_node\_pool\_name | Name of the master (consolidated control plane and etcd) node pool | `string` | `"master"` | no |
 | master\_node\_prefix | Prefix for nodes created in master (consolidated control plane and etcd) node pool | `string` | `"master-"` | no |
 | master\_node\_quantity | Number of nodes in master (consolidated control plane and etcd) node pool | `number` | n/a | yes |
+| node\_cloud\_config | Global setting for the contents of cloud-config YAML file which will be applied on all cluster nodes; these contents should be defined in the root module either inline using the `heredoc` synthax, or loaded from a file using Terraform's `file()` function. `cloud_config` parameter inside `node_spec` overrides this global setting on a per node role basis; if neither are set, cloud-config file for the node will have content of `#cloud-config` (which effectively makes it empty) | `string` | n/a | yes |
 | node\_cluster | Global setting for vSphere cluster in which to create all cluster nodes; either this or `cluster` parameter inside `node_spec` (which overrides it) need to be set | `string` | n/a | yes |
 | node\_datacenter | Global setting for vSphere datacenter in which to create all cluster nodes; either this or `datacenter` parameter inside `node_spec` (which overrides it) need to be set | `string` | n/a | yes |
 | node\_datastore | Global setting for vSphere datastore in which to create all cluster nodes; either this or `datastore` parameter inside `node_spec` (which overrides it) need to be set | `string` | n/a | yes |
@@ -39,7 +40,7 @@
 | node\_template\_ssh\_user | Global setting for the SSH user for Rancher to connect to all cluster nodes after deployment from template; either this or `template_ssh_user` parameter inside `node_spec` (which overrides it) need to be set | `string` | n/a | yes |
 | node\_template\_ssh\_user\_group | Global setting for the user group to which Rancher will chown the uploaded keys on all cluster nodes; either this or `template_ssh_user_group` parameter inside `node_spec` (which overrides it) need to be set | `string` | n/a | yes |
 | node\_vsphere\_template | Global setting for vSphere template from which to create all cluster nodes; either this or `vsphere_template` parameter inside `node_spec` (which overrides it) need to be set | `string` | n/a | yes |
-| private\_registries\_spec | Specification of private registries for Docker images. Take a look at the `examples` directory for synthax | `map` | `{}` | no |
+| private\_registries\_spec | Specification of private registries for Docker images. Multiple registries can be specified, take a look at the `examples` directory for synthax. Only the `url` parameter is mandatory. If you set password access to registry, for future Terraform runs have in mind that Rancher API doesn't return registry password, so every Terraform operation will offer to change the cluster resource by adding the registry password field even if you haven't done any changes in your spec | `map` | `{}` | no |
 | single\_node\_cluster | Whether to create a single node cluster with all roles consolidated on one node | `bool` | `false` | no |
 | worker\_node\_pool\_name | Name of the worker node pool | `string` | `"worker"` | no |
 | worker\_node\_prefix | Prefix for nodes created in worker node pool | `string` | `"worker-"` | no |
