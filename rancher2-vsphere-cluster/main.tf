@@ -16,27 +16,27 @@ resource "rancher2_node_template" "node_template" {
   cloud_credential_id = data.rancher2_cloud_credential.cloud_credential.id
   vsphere_config {
     creation_type             = "template"
-    clone_from                = "/${each.value.datacenter}/vm/${each.value.vsphere_template}"
+    clone_from                = contains(keys(each.value), "vsphere_template") ? (contains(keys(each.value), "datacenter") ? "/${each.value.datacenter}/vm/${each.value.vsphere_template}" : "/${var.node_datacenter}/vm/${each.value.vsphere_template}") : (contains(keys(each.value), "datacenter") ? "/${each.value.datacenter}/vm/${var.node_vsphere_template}" : "/${var.node_datacenter}/vm/${var.node_vsphere_template}")
     cpu_count                 = each.value.num_vcpu
     memory_size               = each.value.memory_gb * 1024
     disk_size                 = each.value.disk_gb * 1024
-    datacenter                = "/${each.value.datacenter}"
-    datastore                 = "/${each.value.datacenter}/datastore/${each.value.datastore}"
-    pool                      = "/${each.value.datacenter}/host/${each.value.cluster}/Resources/${each.value.resource_pool}"
-    folder                    = "/${each.value.datacenter}/vm/${each.value.folder}"
-    network                   = ["/${each.value.datacenter}/network/${each.value.portgroup}"]
-    ssh_user                  = each.value.template_ssh_user
-    ssh_password              = each.value.template_ssh_password
-    ssh_user_group            = each.value.template_ssh_user_group
+    datacenter                = contains(keys(each.value), "datacenter") ? "/${each.value.datacenter}" : "/${var.node_datacenter}"
+    datastore                 = contains(keys(each.value), "datastore") ? (contains(keys(each.value), "datacenter") ? "/${each.value.datacenter}/datastore/${each.value.datastore}" : "/${var.node_datacenter}/datastore/${each.value.datastore}") : (contains(keys(each.value), "datacenter") ? "/${each.value.datacenter}/datastore/${var.node_datastore}" : "/${var.node_datacenter}/datastore/${var.node_datastore}")
+    pool                      = contains(keys(each.value), "resource_pool") ? (contains(keys(each.value), "datacenter") ? (contains(keys(each.value), "cluster") ? "/${each.value.datacenter}/host/${each.value.cluster}/Resources/${each.value.resource_pool}" : "/${each.value.datacenter}/host/${each.value.cluster}/Resources/${var.node_resource_pool}") : (contains(keys(each.value), "cluster") ? "/${var.node_datacenter}/host/${each.value.cluster}/Resources/${each.value.resource_pool}" : "/${var.node_datacenter}/host/${var.node_cluster}/Resources/${each.value.resource_pool}")) : var.node_resource_pool != null ? (contains(keys(each.value), "datacenter") ? (contains(keys(each.value), "cluster") ? "/${each.value.datacenter}/host/${each.value.cluster}/Resources/${var.node_resource_pool}" : "/${each.value.datacenter}/host/${var.node_cluster}/Resources/${var.node_resource_pool}") : (contains(keys(each.value), "cluster") ? "/${var.node_datacenter}/host/${each.value.cluster}/Resources/${var.node_resource_pool}" : "/${var.node_datacenter}/host/${var.node_cluster}/Resources/${var.node_resource_pool}")) : (contains(keys(each.value), "datacenter") ? (contains(keys(each.value), "cluster") ? "/${each.value.datacenter}/host/${each.value.cluster}/Resources" : "/${each.value.datacenter}/host/${var.node_cluster}/Resources") : (contains(keys(each.value), "cluster") ? "/${var.node_datacenter}/host/${each.value.cluster}/Resources" : "/${var.node_datacenter}/host/${var.node_cluster}/Resources"))
+    folder                    = contains(keys(each.value), "folder") ? (contains(keys(each.value), "datacenter") ? "/${each.value.datacenter}/vm/${each.value.folder}" : "/${var.node_datacenter}/vm/${each.value.folder}") : var.node_folder != null ? (contains(keys(each.value), "datacenter") ? "/${each.value.datacenter}/vm/${var.node_folder}" : "/${var.node_datacenter}/vm/${var.node_folder}") : null
+    network                   = contains(keys(each.value), "portgroup") ? (contains(keys(each.value), "datacenter") ? ["/${each.value.datacenter}/network/${each.value.portgroup}"] : ["/${var.node_datacenter}/network/${each.value.portgroup}"]) : (contains(keys(each.value), "datacenter") ? ["/${each.value.datacenter}/network/${var.node_portgroup}"] : ["/${var.node_datacenter}/network/${var.node_portgroup}"])
+    ssh_user                  = contains(keys(each.value), "template_ssh_user") ? each.value.template_ssh_user : var.node_template_ssh_user
+    ssh_password              = contains(keys(each.value), "template_ssh_password") ? each.value.template_ssh_password : var.node_template_ssh_password
+    ssh_user_group            = contains(keys(each.value), "template_ssh_user_group") ? each.value.template_ssh_user_group : var.node_template_ssh_user_group
     vapp_ip_allocation_policy = "fixedAllocated"
     vapp_ip_protocol          = "IPv4"
     vapp_transport            = "com.vmware.guestInfo"
     vapp_property = [
-      "guestinfo.dns.servers=$${dns:${each.value.portgroup}}",
-      "guestinfo.dns.domains=$${searchPath:${each.value.portgroup}}",
-      "guestinfo.interface.0.ip.0.address=ip:${each.value.portgroup}",
-      "guestinfo.interface.0.ip.0.netmask=$${netmask:${each.value.portgroup}}",
-      "guestinfo.interface.0.route.0.gateway=$${gateway:${each.value.portgroup}}"
+      contains(keys(each.value), "portgroup") ? "guestinfo.dns.servers=$${dns:${each.value.portgroup}}" : "guestinfo.dns.servers=$${dns:${var.node_portgroup}}",
+      contains(keys(each.value), "portgroup") ? "guestinfo.dns.domains=$${searchPath:${each.value.portgroup}}" : "guestinfo.dns.domains=$${searchPath:${var.node_portgroup}}",
+      contains(keys(each.value), "portgroup") ? "guestinfo.interface.0.ip.0.address=ip:${each.value.portgroup}" : "guestinfo.interface.0.ip.0.address=ip:${var.node_portgroup}",
+      contains(keys(each.value), "portgroup") ? "guestinfo.interface.0.ip.0.netmask=$${netmask:${each.value.portgroup}}" : "guestinfo.interface.0.ip.0.netmask=$${netmask:${var.node_portgroup}}",
+      contains(keys(each.value), "portgroup") ? "guestinfo.interface.0.route.0.gateway=$${gateway:${each.value.portgroup}}" : "guestinfo.interface.0.route.0.gateway=$${gateway:${var.node_portgroup}}"
     ]
     cloud_config = "#cloud-config"
   }
