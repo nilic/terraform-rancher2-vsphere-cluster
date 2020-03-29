@@ -3,8 +3,68 @@ variable "cloud_credential_name" {
   description = "Name of vSphere cloud credential"
 }
 
+variable "node_vsphere_template" {
+  type        = string
+  description = "Global setting for vSphere template from which to create all cluster nodes; either this or `vsphere_template` parameter inside `node_spec` (which overrides it) need to be set"
+  default     = null
+}
+
+variable "node_datacenter" {
+  type        = string
+  description = "Global setting for vSphere datacenter in which to create all cluster nodes; either this or `datacenter` parameter inside `node_spec` (which overrides it) need to be set"
+  default     = null
+}
+
+variable "node_cluster" {
+  type        = string
+  description = "Global setting for vSphere cluster in which to create all cluster nodes; either this or `cluster` parameter inside `node_spec` (which overrides it) need to be set"
+  default     = null
+}
+
+variable "node_datastore" {
+  type        = string
+  description = "Global setting for vSphere datastore in which to create all cluster nodes; either this or `datastore` parameter inside `node_spec` (which overrides it) need to be set"
+  default     = null
+}
+
+variable "node_resource_pool" {
+  type        = string
+  description = "Global setting for vSphere resource pool in which to create all cluster nodes; `resource_pool` parameter inside `node_spec` overrides this global setting; if neither are set, nodes will be created in cluster root"
+  default     = null
+}
+
+variable "node_folder" {
+  type        = string
+  description = "Global setting for vSphere VM and template folder in which to create all cluster nodes; `folder` parameter inside `node_spec` overrides this global setting; if neither are set, nodes will be created in datacenter root"
+  default     = null
+}
+
+variable "node_portgroup" {
+  type        = string
+  description = "Global setting for vSphere portgroup to which to connect all cluster nodes; either this or `portgroup` parameter inside `node_spec` (which overrides it) need to be set"
+  default     = null
+}
+
+variable "node_template_ssh_user" {
+  type        = string
+  description = "Global setting for the SSH user for Rancher to connect to all cluster nodes after deployment from template; either this or `template_ssh_user` parameter inside `node_spec` (which overrides it) need to be set"
+  default     = null
+}
+
+variable "node_template_ssh_password" {
+  type        = string
+  description = "Global setting for the SSH password for Rancher to connect to all cluster nodes after deployment from template; either this or `template_ssh_password` parameter inside `node_spec` (which overrides it) need to be set"
+  default     = null
+}
+
+variable "node_template_ssh_user_group" {
+  type        = string
+  description = "Global setting for the user group to which Rancher will chown the uploaded keys on all cluster nodes; either this or `template_ssh_user_group` parameter inside `node_spec` (which overrides it) need to be set"
+  default     = null
+}
+
 variable "node_spec" {
-  description = "Specification of node templates, take a look at the `examples` directory for synthax"
+  description = "Specification of node templates for each of the node roles. Available roles are `control_plane`, `etcd`, `master` (consolidated `control_plane` and `etcd`), `worker` and `all_in_one` (`control_plane`, `etcd` and `worker` consolidate on one node, used for creating single node clusters). `node_spec` allows for specifying parameters such as vSphere template, datacenter, cluster etc. on a node role basis. If these parameters are set both through `node_spec` and globally through `node_*`, `node_spec` values will have precedence. As a minimum, each node role needs to have the following inputs set in `node_spec`: `num_vcpu` (VM number of vCPUs), `memory_gb` (VM memory in GB) and `disk_gb` (VM disk size in GB) - all other values can be inherited from global variables. Take a look at the `examples` directory for detailed synthax"
 }
 
 variable "cluster_name" {
