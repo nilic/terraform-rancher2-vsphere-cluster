@@ -180,6 +180,5 @@ module "rancher_cluster_consolidated_control_plane_etcd" {
   }
 
   master_node_quantity = 3
-
   worker_node_quantity = 3
 }

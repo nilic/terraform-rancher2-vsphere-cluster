@@ -108,7 +108,7 @@ variable "kubernetes_network_plugin" {
 }
 
 variable "private_registries_spec" {
-  description = "Specification of private registries for Docker images. Take a look at the `examples` directory for synthax"
+  description = "Specification of private registries for Docker images. Multiple registries can be specified, take a look at the `examples` directory for synthax. Only the `url` parameter is mandatory. If you set password access to registry, for future Terraform runs have in mind that Rancher API doesn't return registry password, so every Terraform operation will offer to change the cluster resource by adding the registry password field even if you haven't done any changes in your spec"
   default     = {}
 }
 
