@@ -69,6 +69,12 @@ variable "node_cloud_config" {
   default     = null
 }
 
+variable "node_network_protocol_profile_addressing" {
+  type        = bool
+  description = "(Requires minimum Rancher v2.3.6) Whether to use node portgroup's network protocol profile to transfer network properties such as IP address, subnet mask, default gateway, DNS servers, DNS search path and DNS domain to the node through its vApp properties. In order for the transferred properties to be actually configured in the OS, `cloud_config` can be used to read the vApp properties through VMware Tools and configure the OS network stack. The following vApp properties are read from the network protocol profile and transferred to node VMs: `guestinfo.dns.servers` (DNS servers specified in the network protocol profile), `guestinfo.dns.domain` (domain name), `guestinfo.dns.searchpath` (DNS search path), `guestinfo.interface.0.ip.0.address` (assigned IP address from the IP pool), `guestinfo.interface.0.ip.0.netmask` (subnet mask of the assigned IP address) and `guestinfo.interface.0.route.0.gateway`(default gateway). If set to `false` (default) no vApp properties are configured and cluster nodes will use DHCP assigned addresses"
+  default     = false
+}
+
 variable "node_spec" {
   description = "Specification of node templates for each of the node roles. Available roles are `control_plane`, `etcd`, `master` (consolidated `control_plane` and `etcd`), `worker` and `all_in_one` (`control_plane`, `etcd` and `worker` consolidate on one node, used for creating single node clusters). `node_spec` allows for specifying parameters such as vSphere template, datacenter, cluster etc. on a node role basis. If these parameters are set both through `node_spec` and globally through `node_*`, `node_spec` values will have precedence. As a minimum, each node role needs to have the following inputs set in `node_spec`: `num_vcpu` (VM number of vCPUs), `memory_gb` (VM memory in GB) and `disk_gb` (VM disk size in GB) - all other values can be inherited from global variables. Take a look at the `examples` directory for detailed synthax"
 }

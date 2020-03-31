@@ -1,3 +1,7 @@
+## 2.6.0 (March 31, 2020)
+FEATURES:
+* `rancher2-vsphere-cluster`: Added support for transferring network information (such as IP addresses, default gateway, DNS servers, DNS domain etc) through vApp properties to cluster nodes using node portgroup's network protocol profile. This is done by setting variable `node_network_protocol_profile_addressing` to `true` and can be used along with proper `cloud_config` configuration for setting static IP addresses on cluster nodes
+
 ## 2.5.0 (March 29, 2020)
 FEATURES:
 * `rancher2-vsphere-cluster`: Added support for specifying cloud-config YAML for cluster nodes, either through global setting `node_cloud_config` or through a local `cloud_config` parameter inside `node_spec`; contents of a cloud-config YAML file should be passed to the module, and this can be done either by defining YAML inline using Terraform's `heredoc` synthax or by loading it from a file using Terraform's `file()` function; cloud-config spec is optional, if omitted, cloud-config file will be left empty (set to `#cloud-config`)
