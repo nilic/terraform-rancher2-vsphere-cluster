@@ -28,16 +28,17 @@ resource "rancher2_node_template" "node_template" {
     ssh_user                  = contains(keys(each.value), "template_ssh_user") ? each.value.template_ssh_user : var.node_template_ssh_user
     ssh_password              = contains(keys(each.value), "template_ssh_password") ? each.value.template_ssh_password : var.node_template_ssh_password
     ssh_user_group            = contains(keys(each.value), "template_ssh_user_group") ? each.value.template_ssh_user_group : var.node_template_ssh_user_group
-    vapp_ip_allocation_policy = "fixedAllocated"
-    vapp_ip_protocol          = "IPv4"
-    vapp_transport            = "com.vmware.guestInfo"
-    vapp_property = [
+    vapp_ip_allocation_policy = var.node_network_protocol_profile_addressing ? "fixedAllocated" : null
+    vapp_ip_protocol          = var.node_network_protocol_profile_addressing ? "IPv4" : null
+    vapp_transport            = var.node_network_protocol_profile_addressing ? "com.vmware.guestInfo" : null
+    vapp_property = var.node_network_protocol_profile_addressing ? [
       contains(keys(each.value), "portgroup") ? "guestinfo.dns.servers=$${dns:${each.value.portgroup}}" : "guestinfo.dns.servers=$${dns:${var.node_portgroup}}",
-      contains(keys(each.value), "portgroup") ? "guestinfo.dns.domains=$${searchPath:${each.value.portgroup}}" : "guestinfo.dns.domains=$${searchPath:${var.node_portgroup}}",
+      contains(keys(each.value), "portgroup") ? "guestinfo.dns.domain=$${domainName:${each.value.portgroup}}" : "guestinfo.dns.domain=$${domainName:${var.node_portgroup}}",
+      contains(keys(each.value), "portgroup") ? "guestinfo.dns.searchpath=$${searchPath:${each.value.portgroup}}" : "guestinfo.dns.searchpath=$${searchPath:${var.node_portgroup}}",
       contains(keys(each.value), "portgroup") ? "guestinfo.interface.0.ip.0.address=ip:${each.value.portgroup}" : "guestinfo.interface.0.ip.0.address=ip:${var.node_portgroup}",
       contains(keys(each.value), "portgroup") ? "guestinfo.interface.0.ip.0.netmask=$${netmask:${each.value.portgroup}}" : "guestinfo.interface.0.ip.0.netmask=$${netmask:${var.node_portgroup}}",
       contains(keys(each.value), "portgroup") ? "guestinfo.interface.0.route.0.gateway=$${gateway:${each.value.portgroup}}" : "guestinfo.interface.0.route.0.gateway=$${gateway:${var.node_portgroup}}"
-    ]
+    ] : null
     cloud_config = contains(keys(each.value), "cloud_config") ? each.value.cloud_config : (var.node_cloud_config != null ? var.node_cloud_config : "#cloud-config")
   }
 }
