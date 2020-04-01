@@ -1,9 +1,3 @@
-terraform {
-  required_providers {
-    rancher2 = ">= 1.7.2"
-  }
-}
-
 data "rancher2_cloud_credential" "cloud_credential" {
   name = var.cloud_credential_name
 }
