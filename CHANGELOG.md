@@ -1,3 +1,7 @@
+## 2.6.2 (April 1, 2020)
+NOTES:
+* Updated module readme using `terraform-docs` v0.9.0 
+
 ## 2.6.1 (April 1, 2020)
 NOTES:
 * Renamed and reorganized the repository for the purpose of publishing the module to Terraform registry
