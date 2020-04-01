@@ -1,3 +1,7 @@
+## 2.6.1 (April 1, 2020)
+NOTES:
+* Renamed and reorganized the repository for the purpose of publishing the module to Terraform registry
+
 ## 2.6.0 (March 31, 2020)
 FEATURES:
 * `rancher2-vsphere-cluster`: Added support for transferring network information (such as IP addresses, default gateway, DNS servers, DNS domain etc) through vApp properties to cluster nodes using node portgroup's network protocol profile. This is done by setting variable `node_network_protocol_profile_addressing` to `true` and can be used along with proper `cloud_config` configuration for setting static IP addresses on cluster nodes
