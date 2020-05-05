@@ -159,7 +159,7 @@ module "rancher_cluster_consolidated_control_plane_etcd" {
   enable_istio              = false
   kubernetes_network_plugin = "canal"
 
-  node_template                = "MyFolder/k8s-node-template"
+  node_vsphere_template        = "MyFolder/k8s-node-template"
   node_datacenter              = "MyDC"
   node_datastore               = "MyDatastore"
   node_cluster                 = "MyCluster"
@@ -203,7 +203,7 @@ module "rancher_cluster_consolidated_control_plane_etcd_npp" {
   enable_istio              = false
   kubernetes_network_plugin = "canal"
 
-  node_template                            = "MyFolder/k8s-node-template"
+  node_vsphere_template                    = "MyFolder/k8s-node-template"
   node_datacenter                          = "MyDC"
   node_datastore                           = "MyDatastore"
   node_cluster                             = "MyCluster"
