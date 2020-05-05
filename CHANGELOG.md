@@ -1,3 +1,7 @@
+## 2.6.3 (May 5, 2020)
+NOTES:
+* Fixed wrong variable name in one of the example files 
+
 ## 2.6.2 (April 1, 2020)
 NOTES:
 * Updated module readme using `terraform-docs` v0.9.0 
