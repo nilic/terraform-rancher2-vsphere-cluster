@@ -1,0 +1,37 @@
+#cloud-config
+write_files:
+  - path: /tmp/cloudconfig.sh
+    content: |
+        #!/bin/bash
+        vmtoolsd --cmd 'info-get guestinfo.ovfEnv' > /tmp/ovfenv
+        IPAddress=$(sed -n 's/.*Property oe:key="guestinfo.interface.0.ip.0.address" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
+        SubnetMask=$(sed -n 's/.*Property oe:key="guestinfo.interface.0.ip.0.netmask" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
+        Gateway=$(sed -n 's/.*Property oe:key="guestinfo.interface.0.route.0.gateway" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
+        DNS=$(sed -n 's/.*Property oe:key="guestinfo.dns.servers" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
+        Domain=$(sed -n 's/.*Property oe:key="guestinfo.dns.domain" oe:value="\([^"]*\).*/\1/p' /tmp/ovfenv)
+        MacAddr=$(grep HWADDR /etc/sysconfig/network-scripts/ifcfg-ens192 | cut -d '=' -f2)
+ 
+        cat > /etc/sysconfig/network-scripts/ifcfg-ens192 <<EOF
+          HWADDR=$MacAddr
+          NAME=ens192
+          GATEWAY=$Gateway
+          DNS1=$DNS
+          DOMAIN="$Domain"
+          DEVICE=ens192
+          ONBOOT=yes
+          USERCTL=no
+          BOOTPROTO=static
+          NETMASK=$SubnetMask
+          IPADDR=$IPAddress
+          PEERDNS=no
+          IPV6INIT=yes
+          IPV6_AUTOCONF=yes
+
+          check_link_down() {
+           return 1; 
+          }
+        EOF
+ 
+        systemctl restart network
+runcmd:
+  - bash /tmp/cloudconfig.sh
